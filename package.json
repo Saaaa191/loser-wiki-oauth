@@ -1,0 +1,24 @@
+{
+  "name": "loser-wiki-oauth",
+  "version": "1.0.0",
+  "description": "Google OAuth callback handler for loser.wiki",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.4",
+    "express": "^4.21.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Saaaa191/loser-wiki-oauth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Saaaa191/loser-wiki-oauth/issues"
+  },
+  "homepage": "https://github.com/Saaaa191/loser-wiki-oauth#readme"
+}
