@@ -20,163 +20,176 @@ app.get('/auth/google/callback', async (req, res) => {
                     margin: 20px;
                     text-align: center;
                     line-height: 1.6;
+                    background-color: #f9f9f9;
                 }
                 h1 {
                     color: #333;
                     font-size: 24px;
+                    margin-bottom: 10px;
+                }
+                .success-icon {
+                    color: #0f0;
+                    font-size: 48px;
+                    margin: 20px 0;
+                }
+                .code-container {
+                    margin: 20px auto;
+                    max-width: 90%;
+                    position: relative;
                 }
                 .code-box {
-                    margin: 20px auto;
                     padding: 15px;
-                    background: #f5f5f5;
-                    border: 1px solid #ddd;
+                    background: #fff;
+                    border: 2px solid #4285f4;
                     border-radius: 5px;
                     word-break: break-all;
                     text-align: left;
                     font-family: monospace;
-                    max-width: 90%;
+                    font-size: 16px;
+                    color: #333;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
                 }
                 .copy-btn {
                     background-color: #4285f4;
                     color: white;
                     border: none;
-                    padding: 10px 20px;
+                    padding: 12px 24px;
                     border-radius: 5px;
                     cursor: pointer;
                     font-size: 16px;
+                    font-weight: bold;
+                    margin-top: 15px;
+                    transition: background-color 0.3s;
+                }
+                .copy-btn:hover {
+                    background-color: #3367d6;
+                }
+                .copy-btn:active {
+                    background-color: #2a56c6;
                 }
                 .instructions {
-                    margin-top: 20px;
-                    color: #666;
+                    margin-top: 25px;
+                    background-color: #fff;
+                    padding: 15px;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                }
+                .steps {
+                    text-align: left;
+                    display: inline-block;
                 }
                 .highlight {
-                    color: #ff0000;
+                    color: #d23f31;
                     font-weight: bold;
                 }
-                .modal {
-                    display: none;
+                .notification {
                     position: fixed;
-                    z-index: 1000;
-                    left: 0;
-                    top: 0;
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(0, 0, 0, 0.5);
-                }
-                .modal-content {
-                    background-color: white;
-                    margin: 20% auto;
-                    padding: 20px;
-                    width: 80%;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                }
-                .input-area {
-                    margin: 15px 0;
-                }
-                .code-input {
-                    width: 100%;
-                    padding: 10px;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                    font-family: monospace;
-                    font-size: 16px;
-                }
-                .action-buttons {
-                    display: flex;
-                    justify-content: center;
-                    gap: 10px;
-                }
-                .action-btn {
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
                     padding: 10px 20px;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    font-size: 16px;
-                }
-                .submit-btn {
-                    background-color: #07c160;
+                    background-color: rgba(0, 0, 0, 0.7);
                     color: white;
+                    border-radius: 5px;
+                    display: none;
+                    z-index: 1000;
                 }
-                .cancel-btn {
-                    background-color: #f5f5f5;
+            </style>
+        </head>
+        <body>
+            <div id="notification" class="notification">已复制到剪贴板</div>
+            
+            <h1>Google 授权成功</h1>
+            <div class="success-icon">✓</div>
+            <p>请复制以下授权码，并粘贴到微信小程序中：</p>
+            
+            <div class="code-container">
+                <div class="code-box" id="authCode">${code}</div>
+            </div>
+            
+            <button class="copy-btn" onclick="copyCodeAndAlert()">复制授权码</button>
+            
+            <div class="instructions">
+                <p><strong>完成步骤：</strong></p>
+                <ol class="steps">
+                    <li>点击上方"复制授权码"按钮</li>
+                    <li>返回微信小程序</li>
+                    <li><span class="highlight">在小程序底部输入框粘贴授权码</span></li>
+                    <li><span class="highlight">点击"提交"按钮完成登录</span></li>
+                </ol>
+            </div>
+
+            <script>
+                function copyCodeAndAlert() {
+                    const codeText = document.getElementById('authCode').innerText;
+                    
+                    // 复制到剪贴板
+                    navigator.clipboard.writeText(codeText)
+                        .then(() => {
+                            // 显示通知
+                            const notification = document.getElementById('notification');
+                            notification.style.display = 'block';
+                            
+                            // 3秒后隐藏通知
+                            setTimeout(() => {
+                                notification.style.display = 'none';
+                            }, 3000);
+                            
+                            // 更改按钮状态
+                            const copyBtn = document.querySelector('.copy-btn');
+                            copyBtn.textContent = '✓ 已复制';
+                            copyBtn.style.backgroundColor = '#0f9d58';
+                            
+                            // 5秒后恢复按钮状态
+                            setTimeout(() => {
+                                copyBtn.textContent = '复制授权码';
+                                copyBtn.style.backgroundColor = '#4285f4';
+                            }, 5000);
+                        })
+                        .catch(err => {
+                            console.error('复制失败:', err);
+                            alert('复制失败，请手动复制授权码');
+                        });
+                }
+                
+                // 页面加载完成后聚焦授权码
+                window.onload = function() {
+                    const codeBox = document.getElementById('authCode');
+                    const range = document.createRange();
+                    range.selectNode(codeBox);
+                    window.getSelection().removeAllRanges();
+                    window.getSelection().addRange(range);
+                };
+            </script>
+        </body>
+        </html>
+    `);
+});
+
+// 添加根路径处理
+app.get('/', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Google OAuth 服务</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 20px;
+                    text-align: center;
+                    line-height: 1.6;
+                }
+                h1 {
                     color: #333;
                 }
             </style>
         </head>
         <body>
-            <h1>Google 授权成功</h1>
-            <p>请点击下方按钮复制授权码：</p>
-            <div class="code-box" id="authCode">${code}</div>
-            <button class="copy-btn" onclick="copyCodeAndShowModal()">复制授权码</button>
-            <div class="instructions">
-                <p>完成步骤：</p>
-                <ol>
-                    <li>点击"复制授权码"按钮</li>
-                    <li><span class="highlight">在小程序底部粘贴授权码并提交</span></li>
-                </ol>
-            </div>
-
-            <!-- 输入窗口 -->
-            <div id="inputModal" class="modal">
-                <div class="modal-content">
-                    <h2>验证授权码</h2>
-                    <p>请确认以下授权码是否正确：</p>
-                    <div class="input-area">
-                        <input type="text" class="code-input" id="codeInput" readonly />
-                    </div>
-                    <div class="action-buttons">
-                        <button class="action-btn cancel-btn" onclick="closeModal()">取消</button>
-                        <button class="action-btn submit-btn" onclick="returnToMiniProgram()">确认并返回小程序</button>
-                    </div>
-                </div>
-            </div>
-
-            <script>
-                // 复制授权码并显示模态框
-                function copyCodeAndShowModal() {
-                    const codeText = document.getElementById('authCode').innerText;
-                    navigator.clipboard.writeText(codeText)
-                        .then(() => {
-                            // 显示模态框并填充输入框
-                            document.getElementById('codeInput').value = codeText;
-                            document.getElementById('inputModal').style.display = 'block';
-                        })
-                        .catch(err => {
-                            alert('复制失败，请手动复制授权码');
-                            console.error('复制失败:', err);
-                        });
-                }
-
-                // 关闭模态框
-                function closeModal() {
-                    document.getElementById('inputModal').style.display = 'none';
-                }
-
-                // 返回微信小程序
-                function returnToMiniProgram() {
-                    alert('授权码已复制，请返回微信小程序粘贴');
-                    closeModal();
-                    
-                    // 提示用户返回小程序
-                    setTimeout(() => {
-                        // 尝试使用微信小程序的返回能力（如果在小程序WebView中）
-                        try {
-                            wx.miniProgram.navigateBack();
-                        } catch (e) {
-                            console.log('不在小程序WebView环境中，无法自动返回');
-                        }
-                    }, 1000);
-                }
-
-                // 点击模态框背景时关闭
-                window.onclick = function(event) {
-                    const modal = document.getElementById('inputModal');
-                    if (event.target == modal) {
-                        closeModal();
-                    }
-                }
-            </script>
+            <h1>Google OAuth 服务</h1>
+            <p>这是一个用于处理 Google OAuth 回调的服务。</p>
+            <p>请通过微信小程序发起 Google 登录请求。</p>
         </body>
         </html>
     `);
