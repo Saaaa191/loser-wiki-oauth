@@ -64,7 +64,6 @@ app.get('/auth/google/callback', async (req, res) => {
                 <p>完成步骤：</p>
                 <ol>
                     <li>点击"复制授权码"按钮</li>
-                    <li>返回微信小程序</li>
                     <li><span class="highlight">在小程序底部粘贴授权码并提交</span></li>
                 </ol>
             </div>
