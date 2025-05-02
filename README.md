@@ -8,6 +8,8 @@ This is a simple server for handling Google OAuth callback for the loser.wiki ap
 - Handles Google OAuth 2.0 callback
 - Displays authorization code for copying
 - Designed for use with WeChat Mini Program
+
+## MAIN
 🛠 Technical Support & Contribution – Loser App
 Welcome to the official GitHub repository for Loser – a deliberately anti-social, anti-optimization, and fully functional emotional sandbox disguised as a social platform.
 
