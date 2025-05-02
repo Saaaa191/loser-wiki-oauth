@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/guide/guide",
+    "pages/guide/guide2",
+    "pages/index/index",
+    "pages/loserCircle/loserCircle",
+    "pages/abyss/abyss",
+    "pages/profile/profile",
+    "pages/loserGroup/loserGroup",
+    "pages/groupDetail/groupDetail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#000",
+    "navigationBarTitleText": "Loser",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#000000",
+    "backgroundColor": "#ffffff",
+    "fontSize": "16px",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "表世界"
+      },
+      {
+        "pagePath": "pages/loserCircle/loserCircle",
+        "text": "Loser圈"
+      },
+      {
+        "pagePath": "pages/abyss/abyss",
+        "text": "渊"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "无我"
+      }
+    ]
+  }
+} 
